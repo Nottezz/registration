@@ -13,24 +13,24 @@ cur.execute("""CREATE TABLE IF NOT EXISTS users_data(
 """)
 db.commit()
 
-"""Заполнение таблицы"""
-
-user_1 = ('Ivan', 'qwer1234', '1234')
-cur.execute("""INSERT INTO users_data(Login, Password, Code)
-    VALUES(?, ?, ?);
-""", user_1)
-db.commit()
+# """Заполнение таблицы"""
+#
+# user_1 = ('Ivan', 'qwer1234', '1234')
+# cur.execute("""INSERT INTO users_data(Login, Password, Code)
+#     VALUES(?, ?, ?);
+# """, user_1)
+# db.commit()
 
 """Выбор действия"""
 
-create_user = 'Создать новый аккаунт'
-enter = 'Авторизоваться'
-recover_password = 'Восстановить пароль'
-action = input('Что нужно выполнить?\n- Создать новый аккаунт\n- Авторизоваться\n- Восстановить пароль\n')
-print(action)
+create_user = '1'  # Создать новый аккаунт
+enter = '2'  # Авторизоваться
+recover_password = '3'  # Восстановить пароль
+action = input('Что нужно выполнить?\n1 - Создать новый аккаунт\n2 - Авторизоваться\n3 - Восстановить пароль\n')
 
 """Создаём нового пользователя"""
 if action == create_user:
+
     login = input('Введите свой логин: ')
 
     cur.execute(f"""SELECT Login FROM users_data WHERE Login = '{login}';""")
@@ -47,8 +47,8 @@ if action == create_user:
     else:
         print('Такой пользователь существует')
 
-"""Авторизация существующего пользователя"""
-if action == enter:
+    """Авторизация существующего пользователя"""
+elif action == enter:
     login = input('Введите свой логин: ')
     password = input('Введите пароль от аккаунта: ')
     user = login + ", " + password
@@ -128,3 +128,6 @@ elif action == recover_password:
         cur.execute(f"""UPDATE users_data SET Password = '{new_password}' WHERE Code = '{recover_code}' ;""")
         db.commit()
         print('Новый пароль установлен!')
+
+else:
+    print('Неизвестная команда! Повторите попытку.')
